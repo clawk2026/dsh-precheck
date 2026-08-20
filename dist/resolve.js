@@ -198,7 +198,12 @@ async function npmToGithubPath(pkg) {
 export async function resolveSpec(raw) {
     const parsed = parseInstallSpec(raw);
     if (!parsed.ok) {
-        return { status: "error", grade: "unknown", message: parsed.error };
+        return {
+            status: "error",
+            grade: "unknown",
+            message: parsed.error,
+            terminal: true,
+        };
     }
     if (parsed.skipCheck) {
         return {
@@ -233,29 +238,36 @@ export async function resolveSpec(raw) {
             message: `Unrecognized install spec: ${parsed.raw}`,
         };
     }
+    // Attach the requested ref (if any) so callers can warn that trust data
+    // covers the default branch only and cannot attest a pinned commit.
+    const tag = (r) => {
+        if (parsed.ref)
+            r.requestedRef = parsed.ref;
+        return r;
+    };
     const lookupKey = path || parsed.raw;
     const resolveUrl = lookupKey.includes("github.com")
         ? lookupKey
         : `https://github.com/${lookupKey}`;
     const viaResolve = await resolveViaFc(resolveUrl);
     if (viaResolve && viaResolve.status !== "error")
-        return viaResolve;
+        return tag(viaResolve);
     if (dshSlug) {
         const a = await resolveViaTrust(dshSlug, path);
         if (a && a.status !== "error")
-            return a;
+            return tag(a);
     }
     if (githubSlug) {
         const b = await resolveViaTrust(githubSlug, path);
         if (b && b.status !== "error")
-            return b;
+            return tag(b);
     }
     if (dshSlug)
-        return resolveViaCatalog(dshSlug, path);
-    return {
+        return tag(await resolveViaCatalog(dshSlug, path));
+    return tag({
         status: "missing",
         grade: "unknown",
         message: `Unable to resolve plugin reference. ${RETRY_HINT_SHORT}`,
-    };
+    });
 }
 //# sourceMappingURL=resolve.js.map

@@ -10,6 +10,12 @@ export type ResolveResult = {
     message?: string;
     detailUrl?: string;
     source?: "resolve" | "trust" | "catalog" | "local";
+    /** Ref requested by the user (e.g. github:owner/repo#v2). Included so
+     *  callers can warn that trust data covers the default branch only. */
+    requestedRef?: string;
+    /** Client-side hard error (e.g. malformed spec): do not pass through to
+     *  the installer even in advisory mode. */
+    terminal?: boolean;
 };
 export declare function detailUrlFor(path?: string): string | undefined;
 export declare function resolveSpec(raw: string): Promise<ResolveResult>;

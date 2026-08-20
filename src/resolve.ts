@@ -14,6 +14,12 @@ export type ResolveResult = {
   message?: string;
   detailUrl?: string;
   source?: "resolve" | "trust" | "catalog" | "local";
+  /** Ref requested by the user (e.g. github:owner/repo#v2). Included so
+   *  callers can warn that trust data covers the default branch only. */
+  requestedRef?: string;
+  /** Client-side hard error (e.g. malformed spec): do not pass through to
+   *  the installer even in advisory mode. */
+  terminal?: boolean;
 };
 
 function catalogUrl(): string {
@@ -218,7 +224,12 @@ async function npmToGithubPath(pkg: string): Promise<string | null> {
 export async function resolveSpec(raw: string): Promise<ResolveResult> {
   const parsed = parseInstallSpec(raw);
   if (!parsed.ok) {
-    return { status: "error", grade: "unknown", message: parsed.error };
+    return {
+      status: "error",
+      grade: "unknown",
+      message: parsed.error,
+      terminal: true,
+    };
   }
   if (parsed.skipCheck) {
     return {
@@ -256,30 +267,37 @@ export async function resolveSpec(raw: string): Promise<ResolveResult> {
     };
   }
 
+  // Attach the requested ref (if any) so callers can warn that trust data
+  // covers the default branch only and cannot attest a pinned commit.
+  const tag = (r: ResolveResult): ResolveResult => {
+    if (parsed.ref) r.requestedRef = parsed.ref;
+    return r;
+  };
+
   const lookupKey = path || parsed.raw;
   const resolveUrl = lookupKey.includes("github.com")
     ? lookupKey
     : `https://github.com/${lookupKey}`;
 
   const viaResolve = await resolveViaFc(resolveUrl);
-  if (viaResolve && viaResolve.status !== "error") return viaResolve;
+  if (viaResolve && viaResolve.status !== "error") return tag(viaResolve);
 
   if (dshSlug) {
     const a = await resolveViaTrust(dshSlug, path);
-    if (a && a.status !== "error") return a;
+    if (a && a.status !== "error") return tag(a);
   }
   if (githubSlug) {
     const b = await resolveViaTrust(githubSlug, path);
-    if (b && b.status !== "error") return b;
+    if (b && b.status !== "error") return tag(b);
   }
 
-  if (dshSlug) return resolveViaCatalog(dshSlug, path);
+  if (dshSlug) return tag(await resolveViaCatalog(dshSlug, path));
 
-  return {
+  return tag({
     status: "missing",
     grade: "unknown",
     message: `Unable to resolve plugin reference. ${RETRY_HINT_SHORT}`,
-  };
+  });
 }
 
 export type { ParsedSpec };

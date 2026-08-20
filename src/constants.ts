@@ -2,6 +2,7 @@
 
 export const PRODUCT = "DSH Precheck";
 export const CLI_NAME = "dsh-precheck";
+export const VERSION = "0.1.1";
 export const SITE = "https://dshprecheck.com";
 export const GITHUB_REPO = "https://github.com/clawk2026/dsh-precheck";
 

@@ -1,6 +1,6 @@
 {
   "name": "dsh-precheck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DSH Precheck CLI — pre-install trust check for DeepSeek Harness plugins",
   "type": "module",
   "bin": {
@@ -9,7 +9,6 @@
   "files": [
     "dist",
     "README.md",
-    "PUBLISH.md",
     "LICENSE"
   ],
   "scripts": {
@@ -19,7 +18,7 @@
     "check": "node dist/cli.js check"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.17.0"
   },
   "keywords": [
     "dsh",
