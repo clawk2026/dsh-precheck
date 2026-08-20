@@ -16,9 +16,6 @@ Thin client only — resolves grades from public catalog / FC query API. **No lo
 | green / yellow | Allow |
 | missing / network / pending | **Fail-soft** — warn, allow |
 
-## Timing (important)
-
-Submitting an unknown plugin only **queues** it. Production assessment runs on the scheduled pipeline (about every **3 hours**), then catalog export. Grades are **not** ready in a few minutes — check back in a few hours (up to ~3 hours).
 
 ## Install
 
@@ -48,22 +45,7 @@ dsh-precheck add github:liustack/modlens
 dsh-precheck plugin --profile web add github:liustack/modlens --dry-run
 ```
 
-## Environment (all optional)
+## Timing
 
-Defaults are baked in for normal use. You only set these to override:
-
-| Var | Required? | Default / meaning |
-|---|---|---|
-| `ZQC_FC_QUERY_URL` | No | Public query FC base (built-in). Enables `/trust/resolve` + queue. |
-| `DSH_PRECHECK_CATALOG_URL` | No | Public `catalog_dsh.json` on OSS |
-| `DSH_PRECHECK_URL` | No | `https://dshprecheck.com` |
-| `DSH_BIN` | No | `dsh` on PATH |
-
-Without any env vars, `check` still works (catalog + default FC).
-
-## Resolve order
-
-1. `GET {ZQC_FC_QUERY_URL}/trust/resolve?url=…`
-2. `GET …/trust/dsh:owner/repo` then `github:owner/repo`
-3. Public `catalog_dsh.json`
+Submitting an unknown plugin only **queues** it. Production assessment runs on the scheduled pipeline (about every **3 hours**), then catalog export. Grades are **not** ready in a few minutes — check back in a few hours (up to ~3 hours).
 
