@@ -1,0 +1,45 @@
+{
+  "name": "dsh-precheck",
+  "version": "0.1.0",
+  "description": "DSH Precheck CLI — pre-install trust check for DeepSeek Harness plugins",
+  "type": "module",
+  "bin": {
+    "dsh-precheck": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "PUBLISH.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "test": "node --test dist/normalize.test.js",
+    "check": "node dist/cli.js check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "dsh-precheck",
+    "security",
+    "precheck",
+    "supply-chain"
+  ],
+  "homepage": "https://dshprecheck.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clawk2026/dsh-precheck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/clawk2026/dsh-precheck/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}
