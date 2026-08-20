@@ -67,6 +67,3 @@ Without any env vars, `check` still works (catalog + default FC).
 2. `GET …/trust/dsh:owner/repo` then `github:owner/repo`
 3. Public `catalog_dsh.json`
 
-## Publish
-
-See [PUBLISH.md](./PUBLISH.md).
