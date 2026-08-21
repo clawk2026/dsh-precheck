@@ -1,26 +1,27 @@
-Dependencies
+# Dependencies
 node_modules/
 
-Build
+# Build artifacts (dist/ is committed so npx github:… works without build)
 *.tsbuildinfo
 
-Logs & OS
-.log
-npm-debug.log
+# Logs & OS
+*.log
+npm-debug.log*
 .DS_Store
 Thumbs.db
 
-Editors
+# Editors
 .idea/
 .vscode/
 *.swp
+*.swo
 
-Pack / env
-.tgz
+# Pack / env
+*.tgz
 .env
-.env.
+.env.*
 !.env.example
 
-Coverage / test
+# Coverage / test
 coverage/
 .nyc_output/
