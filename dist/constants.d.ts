@@ -1,7 +1,7 @@
 /** Shared copy / timing hints (aligned with ~3h collector auto cadence). */
 export declare const PRODUCT = "DSH Precheck";
 export declare const CLI_NAME = "dsh-precheck";
-export declare const VERSION = "0.1.1";
+export declare const VERSION = "0.1.2";
 export declare const SITE = "https://dshprecheck.com";
 export declare const GITHUB_REPO = "https://github.com/clawk2026/dsh-precheck";
 /**

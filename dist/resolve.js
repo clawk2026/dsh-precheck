@@ -1,5 +1,5 @@
 /** Remote grade resolution: FC /trust/resolve first, then catalog_dsh.json. */
-import { DEFAULT_FC_QUERY_URL, RETRY_HINT_SHORT, SITE } from "./constants.js";
+import { DEFAULT_FC_QUERY_URL, RETRY_HINT_SHORT, SITE, VERSION } from "./constants.js";
 import { parseInstallSpec } from "./normalize.js";
 function catalogUrl() {
     return (process.env.DSH_PRECHECK_CATALOG_URL ||
@@ -35,7 +35,7 @@ async function fetchJson(url, timeoutMs = 15000) {
     try {
         const res = await fetch(url, {
             signal: ctrl.signal,
-            headers: { Accept: "application/json", "User-Agent": "dsh-precheck/0.1" },
+            headers: { Accept: "application/json", "User-Agent": `dsh-precheck/${VERSION}` },
         });
         let json = null;
         try {

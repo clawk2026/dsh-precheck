@@ -1,6 +1,6 @@
 /** Remote grade resolution: FC /trust/resolve first, then catalog_dsh.json. */
 
-import { DEFAULT_FC_QUERY_URL, RETRY_HINT_SHORT, SITE } from "./constants.js";
+import { DEFAULT_FC_QUERY_URL, RETRY_HINT_SHORT, SITE, VERSION } from "./constants.js";
 import { parseInstallSpec, type ParsedSpec } from "./normalize.js";
 
 export type Grade = "green" | "yellow" | "orange" | "red" | "unknown";
@@ -65,7 +65,7 @@ async function fetchJson(
   try {
     const res = await fetch(url, {
       signal: ctrl.signal,
-      headers: { Accept: "application/json", "User-Agent": "dsh-precheck/0.1" },
+      headers: { Accept: "application/json", "User-Agent": `dsh-precheck/${VERSION}` },
     });
     let json: any = null;
     try {

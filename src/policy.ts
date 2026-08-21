@@ -44,6 +44,15 @@ export function decide(
   }
 
   if (opts.strict) {
+    // Pinned refs (github:owner/repo#v2) are looked up at default-branch
+    // granularity only — refuse in strict mode even if that branch is green.
+    if (result.requestedRef) {
+      return {
+        action: "block",
+        reason: `Strict mode: pinned ref '${result.requestedRef}' is not separately assessed (catalog covers the default branch only). Refusing to install.`,
+        exitCode: 2,
+      };
+    }
     // Fail-closed: refuse anything that is not a positively cleared grade
     // (green / yellow). Verified-but-suspicious (orange / red) and everything
     // unverified (error / missing / scanning / unknown) are all blocked.
@@ -55,10 +64,9 @@ export function decide(
       result.grade === "orange" ||
       result.grade === "red";
     if (blocked) {
-      const refNote = result.requestedRef ? `, ref=${result.requestedRef}` : "";
       return {
         action: "block",
-        reason: `Strict mode: plugin is NOT cleared (grade=${result.grade}, status=${result.status}${refNote}). Refusing to install.`,
+        reason: `Strict mode: plugin is NOT cleared (grade=${result.grade}, status=${result.status}). Refusing to install.`,
         exitCode: 2,
       };
     }
@@ -101,7 +109,9 @@ export function decide(
 
   return {
     action: "allow",
-    reason: `Grade ${GRADE_LABEL[result.grade]} — OK to install`,
+    reason: result.requestedRef
+      ? `Grade ${GRADE_LABEL[result.grade]} — OK to install (note: requested ref '${result.requestedRef}' is not separately assessed; grade is for the default branch)`
+      : `Grade ${GRADE_LABEL[result.grade]} — OK to install`,
   };
 }
 
