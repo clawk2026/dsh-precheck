@@ -22,11 +22,14 @@ export type ResolveResult = {
   terminal?: boolean;
 };
 
+// Catalog is served through the Cloudflare Worker (s.dshprecheck.com) which
+// proxies the OSS bucket, so the bucket's public origin never appears in this
+// repo. Override with DSH_PRECHECK_CATALOG_URL / DSH_GUARD_CATALOG_URL.
 function catalogUrl(): string {
   return (
     process.env.DSH_PRECHECK_CATALOG_URL ||
     process.env.DSH_GUARD_CATALOG_URL ||
-    "https://zhuangqiancha-web.oss-cn-hangzhou.aliyuncs.com/catalog_dsh.json"
+    "https://s.dshprecheck.com/catalog_dsh.json"
   );
 }
 

@@ -1,10 +1,13 @@
 /** Remote grade resolution: FC /trust/resolve first, then catalog_dsh.json. */
 import { DEFAULT_FC_QUERY_URL, RETRY_HINT_SHORT, SITE, VERSION } from "./constants.js";
 import { parseInstallSpec } from "./normalize.js";
+// Catalog is served through the Cloudflare Worker (s.dshprecheck.com) which
+// proxies the OSS bucket, so the bucket's public origin never appears in this
+// repo. Override with DSH_PRECHECK_CATALOG_URL / DSH_GUARD_CATALOG_URL.
 function catalogUrl() {
     return (process.env.DSH_PRECHECK_CATALOG_URL ||
         process.env.DSH_GUARD_CATALOG_URL ||
-        "https://zhuangqiancha-web.oss-cn-hangzhou.aliyuncs.com/catalog_dsh.json");
+        "https://s.dshprecheck.com/catalog_dsh.json");
 }
 function siteBase() {
     return (process.env.DSH_PRECHECK_URL || SITE).replace(/\/$/, "");
