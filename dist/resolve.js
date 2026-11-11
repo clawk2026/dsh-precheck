@@ -32,6 +32,76 @@ function asGrade(g) {
         return s;
     return "unknown";
 }
+function strOrNull(v) {
+    if (v == null)
+        return null;
+    if (typeof v === "object")
+        return null;
+    const s = String(v).trim();
+    return s && s.toLowerCase() !== "null" && s.toLowerCase() !== "undefined" ? s : null;
+}
+function numOrNull(v) {
+    if (v == null || v === "")
+        return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+}
+function hasIdentity(v) {
+    if (v == null)
+        return false;
+    if (Array.isArray(v))
+        return v.length > 0;
+    if (typeof v === "object")
+        return Object.keys(v).length > 0;
+    const s = String(v).trim();
+    return s.length > 0 && s !== "null" && s !== "[]" && s !== "{}";
+}
+/**
+ * Pull the already-computed evidence out of a /trust/* response.
+ * The FC API returns `tool`, `author`, `findings` and `capabilities`; the
+ * previous client discarded all but grade/slug/name/findingCount.
+ * Read-only: no scanning, no local rule engine, no new backend calls.
+ */
+function extractRichEvidence(json) {
+    if (!json || typeof json !== "object")
+        return {};
+    const tool = json.tool && typeof json.tool === "object" ? json.tool : {};
+    const author = json.author && typeof json.author === "object" ? json.author : null;
+    const rawFindings = Array.isArray(json.findings) ? json.findings : [];
+    const rawCaps = Array.isArray(tool.capabilities) ? tool.capabilities : [];
+    const findings = rawFindings.map((f) => ({
+        ruleId: strOrNull(f?.rule_id),
+        severity: strOrNull(f?.severity),
+        category: strOrNull(f?.category),
+        filePath: strOrNull(f?.file_path),
+        lineNo: numOrNull(f?.line_no),
+        evidence: strOrNull(f?.evidence),
+        evidenceTier: numOrNull(f?.evidence_tier),
+        pathClass: strOrNull(f?.path_class),
+    }));
+    const capabilities = rawCaps.map((c) => ({
+        name: strOrNull(c?.capability),
+        level: numOrNull(c?.level),
+        confidence: strOrNull(c?.confidence),
+        evidenceTier: numOrNull(c?.evidence_tier),
+        evidenceClass: strOrNull(c?.evidence_class),
+    }));
+    const authorVerified = author
+        ? hasIdentity(author.github_login) ||
+            hasIdentity(author.npm_login) ||
+            hasIdentity(author.other_ids)
+        : null;
+    return {
+        trustScore: numOrNull(tool.trust_score),
+        gradeEvidenceBasis: strOrNull(tool.grade_evidence_basis),
+        firstSeenAt: strOrNull(tool.first_seen_at),
+        lastSeenAt: strOrNull(tool.last_seen_at),
+        lastScannedAt: strOrNull(tool.last_scanned_at),
+        authorVerified,
+        findings,
+        capabilities,
+    };
+}
 async function fetchJson(url, timeoutMs = 15000) {
     const ctrl = new AbortController();
     const t = setTimeout(() => ctrl.abort(), timeoutMs);
@@ -83,6 +153,7 @@ async function resolveViaFc(urlOrPath) {
                 findingCount: Array.isArray(json.findings) ? json.findings.length : undefined,
                 source: "resolve",
                 detailUrl: detailUrlFor(path),
+                ...extractRichEvidence(json),
             };
         }
         return null;
@@ -116,6 +187,7 @@ async function resolveViaTrust(slug, path) {
                 findingCount: Array.isArray(json.findings) ? json.findings.length : undefined,
                 source: "trust",
                 detailUrl: detailUrlFor(path),
+                ...extractRichEvidence(json),
             };
         }
         return null;
@@ -167,6 +239,8 @@ async function resolveViaCatalog(slug, path) {
             findingCount: Number(hit.finding_count || 0),
             detailUrl: detailUrlFor(path || String(hit.slug).replace(/^dsh:/i, "")),
             source: "catalog",
+            // Thin 11-column index: no per-finding evidence. Say so explicitly.
+            evidenceLimited: true,
         };
     }
     catch (err) {

@@ -30,5 +30,11 @@ export declare function decide(result: ResolveResult, opts: {
     yes?: boolean;
     strict?: boolean;
 }): PolicyDecision;
-export declare function formatReport(result: ResolveResult): string;
+/**
+ * Human-readable report. Deliberately separates three things that a single
+ * score conflates: (1) the risk grade, (2) how well that grade is evidenced,
+ * (3) what was never checked at all. `decide()` below is intentionally
+ * untouched — this is presentation only, no policy or exit-code change.
+ */
+export declare function formatReport(result: ResolveResult, now?: Date): string;
 export declare function confirm(prompt: string): Promise<boolean>;

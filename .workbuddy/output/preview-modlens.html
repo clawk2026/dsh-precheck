@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Is modlens safe? — Grade pending | DSH Precheck</title>
+  <meta name="description" content="modlens: grade currently unavailable (backend re-assessing), but 5 evidence item(s) from the last scan are available. Independent pre-install check for DeepSeek Harness plugins. Not a security guarantee." />
+  <meta name="keywords" content="DSH, DeepSeek Harness, plugin security, agent trust, precheck, risk grade" />
+  <meta name="author" content="DSH Precheck" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="#080b12" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="canonical" id="meta-canonical" href="https://dshprecheck.com/plugin/liustack/modlens" />
+
+  <meta property="og:site_name" content="DSH Precheck" />
+  <meta property="og:type" content="website" id="meta-og-type" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:title" content="Is modlens safe? — Grade pending | DSH Precheck" id="meta-og-title" />
+  <meta property="og:description" content="modlens: grade currently unavailable (backend re-assessing), but 5 evidence item(s) from the last scan are available. Independent pre-install check for DeepSeek Harness plugins. Not a security guarantee." id="meta-og-description" />
+  <meta property="og:url" content="https://dshprecheck.com/plugin/liustack/modlens" id="meta-og-url" />
+  <meta property="og:image" content="https://dshprecheck.com/assets/og.png" id="meta-og-image" />
+  <meta property="og:image:alt" content="DSH Precheck" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Is modlens safe? — Grade pending | DSH Precheck" id="meta-tw-title" />
+  <meta name="twitter:description" content="modlens: grade currently unavailable (backend re-assessing), but 5 evidence item(s) from the last scan are available. Independent pre-install check for DeepSeek Harness plugins. Not a security guarantee." id="meta-tw-description" />
+  <meta name="twitter:image" content="https://dshprecheck.com/assets/og.png" id="meta-tw-image" />
+
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <script type="application/ld+json" id="jsonld-org">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "DSH Precheck",
+    "url": "https://dshprecheck.com/",
+    "description": "Security & Trust Checks for DeepSeek Harness Plugins",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://dshprecheck.com/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json" id="jsonld-prerender">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"modlens","applicationCategory":"DeveloperApplication","url":"https://github.com/liustack/modlens","additionalProperty":[{"@type":"PropertyValue","name":"riskGrade","value":"unknown"},{"@type":"PropertyValue","name":"evidenceBasis","value":"doc"},{"@type":"PropertyValue","name":"findingCount","value":"5"}]}</script>
+  <style>
+/* DSH Precheck — dark terminal + emerald */
+
+:root {
+  --bg: #080b12;
+  --fg: #e4e4e7;
+  --muted: #a1a1aa;
+  --dim: #71717a;
+  --border: rgba(255, 255, 255, 0.07);
+  --card: rgba(255, 255, 255, 0.025);
+  --card-hover: rgba(255, 255, 255, 0.04);
+  --emerald: #34d399;
+  --emerald-dim: rgba(52, 211, 153, 0.12);
+  --cyan: rgba(34, 211, 238, 0.06);
+  --radius: 12px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  font-size: 13.5px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  color: var(--fg);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(900px circle at 85% -8%, rgba(52, 211, 153, 0.1), transparent 45%),
+    radial-gradient(680px circle at 8% 0%, rgba(34, 211, 238, 0.06), transparent 42%),
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 38px 38px, 38px 38px;
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.013) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+a {
+  color: #6ee7b7;
+  text-decoration: none;
+}
+a:hover {
+  color: #a7f3d0;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* ——— Top bar ——— */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 11, 18, 0.8);
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #f4f4f5;
+  text-decoration: none;
+}
+.brand:hover {
+  color: #fff;
+}
+.brand-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  filter: drop-shadow(0 0 10px rgba(52, 211, 153, 0.35));
+  transition: transform 0.25s ease;
+}
+.brand:hover .brand-logo {
+  transform: scale(1.08);
+}
+.brand-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.brand-chip {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  color: #6ee7b7;
+  background: var(--emerald-dim);
+  box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.25);
+}
+
+.nav {
+  display: flex;
+  gap: 0.25rem;
+}
+.nav-link {
+  white-space: nowrap;
+  border-radius: 6px;
+  padding: 0.3rem 0.65rem;
+  font-size: 13px;
+  color: #a1a1aa;
+  text-decoration: none;
+  transition: 0.15s ease;
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4f4f5;
+}
+.nav-link.is-active {
+  color: #6ee7b7;
+  background: var(--emerald-dim);
+  box-shadow: inset 0 0 0 1px rgba(52, 211, 153, 0.25);
+}
+
+/* ——— Hero ——— */
+.hero {
+  padding: 2.5rem 0 1.5rem;
+  text-align: left;
+}
+.hero-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6ee7b7;
+  margin: 0 0 0.75rem;
+}
+.hero-title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.35rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 0 26px rgba(52, 211, 153, 0.25);
+}
+.hero-lead {
+  margin: 0.75rem 0 0;
+  max-width: 36rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.lookup {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  max-width: 40rem;
+}
+.lookup input {
+  flex: 1;
+  min-width: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: #fafafa;
+  padding: 0.75rem 0.95rem;
+  font-size: 0.9rem;
+  font-family: var(--mono);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.lookup input::placeholder {
+  color: #52525b;
+}
+.lookup input:focus {
+  border-color: rgba(52, 211, 153, 0.45);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.12);
+}
+.lookup button {
+  border: 0;
+  border-radius: 10px;
+  padding: 0 1.15rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: #052e1f;
+  background: linear-gradient(180deg, #34d399, #10b981);
+  cursor: pointer;
+  box-shadow: 0 0 22px -6px rgba(16, 185, 129, 0.55);
+  transition: transform 0.15s, filter 0.15s;
+}
+.lookup button:hover:not(:disabled) {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.lookup button:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+.hint {
+  margin: 0.55rem 0 0;
+  font-size: 12px;
+  color: var(--dim);
+  font-family: var(--mono);
+}
+
+/* ——— Cards (ToolCard-like) ——— */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 0.85rem;
+}
+.section-head h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f4f4f5;
+  letter-spacing: -0.02em;
+}
+.section-head p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--dim);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) {
+  .card-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (min-width: 960px) {
+  .card-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.tool-card {
+  display: block;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: 0.2s ease;
+  font: inherit;
+}
+.tool-card:hover {
+  border-color: rgba(52, 211, 153, 0.3);
+  background: var(--card-hover);
+  transform: translateY(-2px);
+  color: inherit;
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05),
+    0 14px 44px -20px rgba(52, 211, 153, 0.3);
+}
+.tool-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.tool-card-name {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #fafafa;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tool-card-meta {
+  margin: 0.35rem 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+.tool-card-summary {
+  margin: 0.75rem 0 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #a1a1aa;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.tool-card-foot {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+.tool-card-foot .stars {
+  margin-left: auto;
+  color: #a1a1aa;
+}
+.finding-pill {
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+}
+
+/* ——— Grade badge ——— */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 1px solid;
+  padding: 0.15rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge svg {
+  flex-shrink: 0;
+}
+
+/* ——— Result / detail ——— */
+.crumb {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #71717a;
+  margin-bottom: 1rem;
+}
+.crumb a {
+  color: #a1a1aa;
+}
+.crumb a:hover {
+  color: #e4e4e7;
+}
+.crumb span {
+  margin: 0 0.35rem;
+  color: #3f3f46;
+}
+
+.detail-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.detail-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+.detail-meta {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 13px;
+  color: #a1a1aa;
+}
+.detail-summary {
+  margin: 1.25rem 0 0;
+  max-width: 48rem;
+  color: #d4d4d8;
+  font-size: 0.95rem;
+}
+
+.layer-grid {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+@media (min-width: 720px) {
+  .layer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.layer-card {
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 1rem;
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+}
+.layer-card h3 {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #71717a;
+}
+.layer-card .val {
+  margin: 0.45rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.layer-card .note {
+  margin: 0.35rem 0 0;
+  font-size: 12.5px;
+  color: #a1a1aa;
+  line-height: 1.5;
+}
+
+.panel {
+  margin-top: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 1.1rem 1.15rem;
+}
+.panel h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+.finding {
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.finding:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+.finding-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.finding-rule {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #71717a;
+}
+.finding-title {
+  margin: 0.35rem 0 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f4f4f5;
+}
+.finding-body {
+  margin: 0.35rem 0 0;
+  font-size: 13px;
+  color: #a1a1aa;
+  line-height: 1.55;
+}
+.sev {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 0.12rem 0.4rem;
+}
+.sev-p0 {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+}
+.sev-p1 {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fdba74;
+}
+.sev-p2 {
+  background: rgba(234, 179, 8, 0.12);
+  color: #fde047;
+}
+
+.actions {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: inherit;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.15s ease;
+}
+.btn-primary {
+  color: #052e1f;
+  background: linear-gradient(180deg, #34d399, #10b981);
+  box-shadow: 0 0 18px -6px rgba(16, 185, 129, 0.5);
+}
+.btn-primary:hover {
+  filter: brightness(1.05);
+  color: #052e1f;
+}
+.btn-ghost {
+  color: #d4d4d8;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+}
+
+.state-msg {
+  margin-top: 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 1.15rem;
+  color: #a1a1aa;
+}
+.state-msg strong {
+  color: #f4f4f5;
+  font-size: 0.95rem;
+}
+.state-msg code {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: #6ee7b7;
+}
+
+.muted {
+  color: var(--dim);
+}
+
+.list-sentinel {
+  margin: 1.5rem 0 0.5rem;
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+
+.methodology {
+  max-width: 40rem;
+}
+.methodology h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.5rem;
+  color: #fff;
+}
+.methodology p,
+.methodology li {
+  color: #a1a1aa;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+.methodology ul {
+  padding-left: 1.2rem;
+}
+
+.foot {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1.5rem 1rem 2.5rem;
+  text-align: center;
+  color: #71717a;
+  font-size: 12px;
+}
+.foot-meta {
+  margin-top: 0.35rem;
+  opacity: 0.8;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" data-nav="home" data-link>
+      <img src="/assets/logo.png" alt="DSH Precheck" width="28" height="28" class="brand-logo" />
+      <span class="brand-text">DSH Precheck</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/" data-nav="home" class="nav-link is-active" data-link>Home</a>
+      <a href="/methodology" data-nav="methodology" class="nav-link" data-link>Methodology</a>
+    </nav>
+  </header>
+
+  <main id="app" class="container">
+    <nav class="crumb"><a href="/" data-link>Home</a><span>/</span><span>liustack/modlens</span></nav>
+    <article class="tool-detail">
+      <h1>Is modlens safe to install?</h1>
+      <p><strong>Grade currently unavailable.</strong> The backend is re-assessing this plugin; 5 evidence item(s) from the last scan are shown below. <strong>No risk conclusion is offered</strong> until a grade is restored.</p>
+      <p class="muted">Independent analysis based on public code and declarations. Evidence-based findings; no guarantee of safety.</p>
+      <h2>Evidence</h2><ul class="findings"><li><code>P2 CAP_execute_shell</code> <span class="muted">[vitest.globalSetup.ts:14] tier=1</span> — vitest.globalSetup.ts:14 execFileSync(&#39;pnpm&#39;, [&#39;build&#39;], { cwd: root, stdio: &#39;ignore&#39;, shell: true }); README.md Installation: curl -fsSL https://antigravity.g…</li><li><code>P2 CAP_network_access</code> <span class="muted">[no file:line reference] tier=0</span> — README.md Vision engines: six built-in providers (gemini-api, openai, anthropic, antigravity-cli, claude-cli, kimi-cli) require API keys or logins; calls exter…</li><li><code>P2 CAP_access_third_party_accounts</code> <span class="muted">[no file:line reference] tier=0</span> — README.md &#39;Reusing what your machine already has&#39;: reuses logins from Claude Code, Codex, OpenCode, Pi, Grok with per-harness consent.</li><li><code>P2 CAP_read_credentials</code> <span class="muted">[no file:line reference] tier=0</span> — README.md &#39;Reusing what your machine already has&#39; and &#39;openai is a universal socket&#39;: reads API keys and local CLI login credentials from config and local harn…</li><li><code>P2 CAP_upload_data</code> <span class="muted">[no file:line reference] tier=0</span> — README.md &#39;Paste an image and it reads it&#39;: images are sent to vision engine providers (Gemini, OpenAI, Anthropic, etc.).</li></ul>
+      <h2>Not assessed</h2>
+      <ul>
+        <li>Author identity: UNVERIFIED (no linked GitHub/npm identity)</li>
+        <li>Runtime behaviour: NOT executed — a static scan cannot prove what runs.</li>
+        <li>Pinned refs, tarballs, local dirs, dependency OSV: NOT assessed.</li>
+        <li>Catalog granularity: default branch only.</li>
+      </ul>
+      <h2>Freshness</h2>
+      <p>Last scanned: <code>2026-11-11 08:24:09</code>. Last seen: <code>2026-11-10 14:29:14</code> (not the same as last scanned).</p>
+      <p class="actions"><a class="btn btn-primary" href="/" data-link>Check another plugin</a>
+        <a class="btn btn-ghost" href="https://github.com/liustack/modlens" rel="nofollow noopener">View repository</a></p>
+    </article></main>
+
+  <footer class="foot">
+    <p>Independent risk grades based on public code and declarations. Not a security guarantee.</p>
+    <p class="foot-meta"><a href="https://dshprecheck.com/">dshprecheck.com</a></p>
+  </footer>
+
+  
+</body>
+</html>
